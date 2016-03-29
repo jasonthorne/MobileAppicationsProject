@@ -8,16 +8,25 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Hub x:Name="textBlock" x:Uid="HubControl" Header="Localization Test"/>
-        
-        <TextBox x:Name="testFileTextBox" HorizontalAlignment="Left" Margin="10,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="318" Height="5" RenderTransformOrigin="0.5,0.5"/>
-        <TextBox x:Name="testCardTextBox" Margin="10,258,32,272" Text="" FontSize="64" RenderTransformOrigin="0.5,0.5" />
+        <Hub x:Name="textBlock" x:Uid="HubControl" Header="Localization Test" Margin="10,0,32,586"/>
 
-        <Button x:Name="testFileButton" Content="Button" HorizontalAlignment="Left" Margin="10,462,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button x:Name="testCardButton" Content="Button" HorizontalAlignment="Left" Margin="263,462,0,0" VerticalAlignment="Top" Click="button_Click_1"/>
-        <Image x:Name="cardImage" HorizontalAlignment="Left" Height="221" Margin="80,409,0,0" VerticalAlignment="Top" Width="149"/>
-        
 
+
+        <!-- -->
+        <Button x:Name="openFileBtn" Content="Open Decklist" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Click="openFileBtn_Click" Width="119"/>
+        <Button x:Name="findCardBtn" Content="Search for Card" HorizontalAlignment="Left" Margin="180,192,0,0" VerticalAlignment="Top" Click="findCardBtn_Click"/>
+        <Image x:Name="showCardImg" HorizontalAlignment="Left" Height="255" Margin="153,274,0,0" VerticalAlignment="Top" Width="175"/>
+        <Button x:Name="addToFileBtn" Content="Add to Decklist" HorizontalAlignment="Left" Margin="207,598,0,0" VerticalAlignment="Top" Click="addToFileBtn_Click"/>
+        <TextBox x:Name="findCardTxtBx" HorizontalAlignment="Left" Margin="180,145,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="148" PlaceholderText="Enter Card name" Tapped="findCardTxtBx_Tapped"  />
+        <Button x:Name="makeFileBtn" Content="Create Decklist" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Click="makeFileBtn_Click"/>
+        <TextBox x:Name="fileNameTxtBx" HorizontalAlignment="Left" Margin="10,54,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="165" PlaceholderText="Enter decklist name"/>
+        <Button x:Name="deleteFileBtn" Content="Delete Decklist" HorizontalAlignment="Left" Margin="10,192,0,0" VerticalAlignment="Top" Width="119" Click="deleteFileBtn_Click"/>
+        <Button x:Name="deleteCardBtn" Content="Delete from Decklist" HorizontalAlignment="Left" Margin="10,598,0,0" VerticalAlignment="Top" Width="175" Click="deleteCardBtn_Click"/>
+       
+
+
+        <TextBox x:Name="testTxtBx" HorizontalAlignment="Left" Margin="154,554,0,0" TextWrapping="Wrap" Text="TEST DATA HERE" VerticalAlignment="Top" Width="174"/>
+        <TextBox x:Name="testTxtBx2" HorizontalAlignment="Left" Margin="10,239,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="290" Width="119"/>
 
 
 

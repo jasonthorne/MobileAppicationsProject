@@ -15,27 +15,27 @@ namespace MobileApplicationsProject
     {
        
 
-        public static async Task<RootObject> GetCardData() 
+        public static async Task<RootObject> GetCardData(string findCardName) 
         {
 
-            var http = new HttpClient();
+            var http = new HttpClient(); //set up client
 
-            var response = await http.GetAsync("https://api.deckbrew.com/mtg/cards/shock");
+            var response = await http.GetAsync("https://api.deckbrew.com/mtg/cards/" + findCardName); //get response
 
-            var jsonMsg = await response.Content.ReadAsStringAsync();
+            var jsonMsg = await response.Content.ReadAsStringAsync(); //read in string
 
-            var serializer = new DataContractJsonSerializer(typeof(RootObject));
+            var serializer = new DataContractJsonSerializer(typeof(RootObject)); //deserialize json into classes
 
-            var mStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonMsg));
+            var mStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonMsg)); //memory stream of json bytes for deserializer
             var result = (RootObject)serializer.ReadObject(mStream);
 
-            return result;
+            return result; //return result object
 
         }
     }
 
     
-
+     
    
     public class Formats
     {
