@@ -42,27 +42,33 @@ namespace MobileApplicationsProject
 
         private async void fileActions(string request, string fileName)  //OPTIONS: create file, add to file,  open file, delete file, save file 
         {
-            List<string> cardNamesList = new List<string>();
 
+            fileName += ".txt";
+            List<string> cardNamesList = new List<string>();
+           
+      
             //CREATE/OPEN APP FOLDER
             StorageFolder appFolder = await rootFolder.CreateFolderAsync("mtgDeckBuilder", CreationCollisionOption.OpenIfExists);
-            
+
 
             if (request == "makeFile")
             {
                 //CREATE FILE IN APP FOLDER
                 textFile = await appFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-                testTxtBx.Text = "FILE MADE"; //++++++++++++++++++++++++++++++++++
+                testTxtBx.Text = fileName; //++++++++++++++++++++++++++++++++++
             }
-            else
-            {
+            //else
+            //{
 
                 //FETCH ALL FILES
                 var allFiles = await appFolder.GetFilesAsync();
+                
+                //DISPLAY ALL FILES 
+                displayFiles(allFiles);
 
 
-                try
-                {
+               // try
+                //{
 
                     //FETCH WANTED FILE FROM ALL FILES
                     StorageFile wantedFile = allFiles.FirstOrDefault(x => x.Name == fileName);
@@ -81,6 +87,8 @@ namespace MobileApplicationsProject
                             {
 
                                case "openFile":
+
+                                   
 
                                     //PUT WANTED FILE CONTENTS INTO STRING
                                     String cardNamesString = await FileIO.ReadTextAsync(wantedFile);
@@ -119,14 +127,17 @@ namespace MobileApplicationsProject
                               }   
                         break;             
                     }
-                }
-                catch
-                {
-                    testTxtBx.Text = "ERROR: FILE NOT FOUND";
-                }
+
+
+
+                //}
+                //catch
+                //{
+                    //fileNameTxtBx.PlaceholderText = "File not found!";
+               // }
                 
 
-            }
+            //} ==========ELSE
 
 
 
@@ -144,11 +155,19 @@ namespace MobileApplicationsProject
             // message = await FileIO.ReadTextAsync(wantedFile);
             // break;
 
+        }
 
-          
+      
+        private void displayFiles(IReadOnlyList<StorageFile> allFiles)
+        {
 
+            foreach (StorageFile file in allFiles)
+            {
+                testTxtBx2.Text += file.DisplayName + " ";
+            }
 
         }
+
 
         private List<string> makeCardNamesList(string cardNamesString, List<string> cardNamesList)
         {
@@ -187,16 +206,18 @@ namespace MobileApplicationsProject
             return cardNamesString;
         }
 
-        private string makeHttpCardName(string txtBxCardName)
+        private string formatUserInput(string txtBxUserInput)
         {
             //trim leading and trailing whitespace. convert to lowercase. replace spaces with hyphens
-            string httpCardName = txtBxCardName.Trim().ToLower().Replace(" ", "-"); 
+            string userInput = txtBxUserInput.Trim().ToLower().Replace(" ", "-"); 
 
-            testTxtBx.Text = httpCardName; /////////////=====================================================
+            testTxtBx.Text = userInput; /////////////=====================================================
            
-            return httpCardName;
+            return userInput;
           
         }
+
+        
 
 
         private void openFileBtn_Click(object sender, RoutedEventArgs e)
@@ -207,7 +228,9 @@ namespace MobileApplicationsProject
 
         private void makeFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            fileActions("makeFile", "testFile3.txt"); //+++++++++++++++++++
+            string fileName = formatUserInput(fileNameTxtBx.Text);
+
+            fileActions("makeFile", fileName); //+++++++++++++++++++
         }
 
         private void addToFileBtn_Click(object sender, RoutedEventArgs e)
@@ -231,7 +254,7 @@ namespace MobileApplicationsProject
         {
 
            
-            string httpCardName = makeHttpCardName(findCardTxtBx.Text);
+            string httpCardName = formatUserInput(findCardTxtBx.Text);
             findCardTxtBx.Text = String.Empty;
           
 
