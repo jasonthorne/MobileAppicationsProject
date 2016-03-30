@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -186,8 +187,17 @@ namespace MobileApplicationsProject
             return cardNamesString;
         }
 
+        private string makeHttpCardName(string txtBxCardName)
+        {
+            //trim leading and trailing whitespace. convert to lowercase. replace spaces with hyphens
+            string httpCardName = txtBxCardName.Trim().ToLower().Replace(" ", "-"); 
 
-    
+            testTxtBx.Text = httpCardName; /////////////=====================================================
+           
+            return httpCardName;
+          
+        }
+
 
         private void openFileBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -220,37 +230,35 @@ namespace MobileApplicationsProject
         private async void findCardBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            //makeHttpCardName(findCardTxtBx.Text);
+           
+            string httpCardName = makeHttpCardName(findCardTxtBx.Text);
+            findCardTxtBx.Text = String.Empty;
+          
 
             try
             {
+                findCardTxtBx.PlaceholderText = "Enter Card name";
+                RootObject foundCard = await FindCards.GetCardData(httpCardName); 
 
-                RootObject foundCard = await FindCards.GetCardData(findCardTxtBx.Text);
-
-                testTxtBx.Text = foundCard.editions[0].multiverse_id.ToString();
+                testTxtBx.Text = foundCard.editions[0].multiverse_id.ToString(); //=====================================
 
                 string image = String.Format(foundCard.editions[0].image_url);
                 showCardImg.Source = new BitmapImage(new Uri(image, UriKind.Absolute));
-
+               
             }
             catch
             {
-               
-                findCardTxtBx.Text = "Card not found!";
+
+                findCardTxtBx.PlaceholderText = "Card not found!"; 
             }
 
         }
 
-        private string makeHttpCardName(string txtBxCardName)  
-        {
-            //add '-' to any spaces entered by user
-
-            return null;  //httpCardName;
-        }
+       
 
         private void findCardTxtBx_Tapped(object sender, TappedRoutedEventArgs e) //CHECK THIS!! ++++++++++++++++++++++++++
         {
-            findCardTxtBx.Text = string.Empty;
+            findCardTxtBx.Text = String.Empty;
         }
 
        

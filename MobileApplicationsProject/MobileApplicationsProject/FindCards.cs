@@ -15,12 +15,12 @@ namespace MobileApplicationsProject
     {
        
 
-        public static async Task<RootObject> GetCardData(string findCardName) 
+        public static async Task<RootObject> GetCardData(string httpCardName) 
         {
 
             var http = new HttpClient(); //set up client
 
-            var response = await http.GetAsync("https://api.deckbrew.com/mtg/cards/" + findCardName); //get response
+            var response = await http.GetAsync("https://api.deckbrew.com/mtg/cards/" + httpCardName); //get response
 
             var jsonMsg = await response.Content.ReadAsStringAsync(); //read in string
 
