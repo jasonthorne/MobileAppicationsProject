@@ -25,7 +25,7 @@
        
 
 
-        <TextBox x:Name="testTxtBx" HorizontalAlignment="Left" Margin="154,554,0,0" TextWrapping="Wrap" Text="TEST DATA HERE" VerticalAlignment="Top" Width="174"/>
+        <TextBox x:Name="testTxtBx" HorizontalAlignment="Left" Margin="154,554,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="174"/>
         <TextBox x:Name="testTxtBx2" HorizontalAlignment="Left" Margin="10,239,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="290" Width="119"/>
 
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -30,23 +31,24 @@ namespace MobileApplicationsProject
         ////////////////////////string cardNamesString = "";
         StorageFolder rootFolder = ApplicationData.Current.LocalFolder; //open root folder
         StorageFile textFile;
-
-
-        ///////////////List<string> cardNamesList = new List<string>();
+        List<string> cardNamesList = new List<string>();
+        string cardNamesString; //////////////////////////////////might not need to be here
+        //List<string> cardNamesList = new List<string>();
+        string fileName; 
 
         public MainPage()
         {
             this.InitializeComponent();
         }
 
-
-        private async void fileActions(string request, string fileName)  //OPTIONS: create file, add to file,  open file, delete file, save file 
+        //private async void fileActions(string request, string fileName)
+        private async Task<List<string>> fileActions(string request, string fileName, List<string> cardNamesList)  //OPTIONS: create file, add to file,  open file, delete file, save file 
         {
 
             fileName += ".txt";
-            List<string> cardNamesList = new List<string>();
-           
-      
+           // List<string> cardNamesList = new List<string>();
+            //String cardNamesString;
+
             //CREATE/OPEN APP FOLDER
             StorageFolder appFolder = await rootFolder.CreateFolderAsync("mtgDeckBuilder", CreationCollisionOption.OpenIfExists);
 
@@ -55,16 +57,28 @@ namespace MobileApplicationsProject
             {
                 //CREATE FILE IN APP FOLDER
                 textFile = await appFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-                testTxtBx.Text = fileName; //++++++++++++++++++++++++++++++++++
+                ////////////////////String cardNamesString = await FileIO.ReadTextAsync(textFile);
+
+                //INIT CONTENT
+                await FileIO.WriteTextAsync(textFile, "testContent");
+
+                //////////////OPEN FILE
+                //////////////////////fileActions("openFile", fileName);
+
+                //////////////testTxtBx.Text = await FileIO.ReadTextAsync(textFile); //++++++++++++++++++++++++++++++++++TEST
             }
             //else
             //{
 
+
+               ///refreshFiles(); ///////////////////////DO THIS SOON!!! 
+
+               
                 //FETCH ALL FILES
                 var allFiles = await appFolder.GetFilesAsync();
                 
                 //DISPLAY ALL FILES 
-                displayFiles(allFiles);
+                displayFiles(allFiles); ///////////////////ONLY DISPLAYS!!!
 
 
                // try
@@ -79,38 +93,66 @@ namespace MobileApplicationsProject
                         case "deleteFile":
                             //DELETE FILE FROM FOLDER
                             await wantedFile.DeleteAsync();
-                            testTxtBx.Text = "FILE DELETED"; //==========================================
+
+
+                    //FETCH ALL FILES
+                    var allFiles2 = await appFolder.GetFilesAsync();//==========================================
+
+                    //DISPLAY ALL FILES 
+                    displayFiles(allFiles2); ///////////////////ONLY DISPLAYS!!!//==========================================
+
+                    testTxtBx.Text = "FILE DELETED"; //==========================================
+
                             break;
-                        default: 
- 
-                            switch (request)
+                        default:
+
+                                
+                    switch (request)
                             {
 
                                case "openFile":
 
-                                   
-
                                     //PUT WANTED FILE CONTENTS INTO STRING
-                                    String cardNamesString = await FileIO.ReadTextAsync(wantedFile);
+                                    //String 
+                                    cardNamesString = await FileIO.ReadTextAsync(wantedFile);
 
                                     //MAKE LIST OF CARD NAMES FROM STRING
-                                     cardNamesList = makeCardNamesList("a,b,c", cardNamesList); ////////////////////////cardNamesString ============================
+                                    cardNamesList = makeCardNamesList(cardNamesString); //, cardNamesList); ////////////////////////cardNamesString ============================
 
-                                    //MAKE CALLS USING CARDNAMES
+                                    //DISPLAY CARDNAMES
+                                    displayCards(cardNamesList);
 
-                                    //POPULATE (SOMETHING?) WITH CARD DATA
+                            //MAKE CALLS USING CARDNAMES
 
-                                    testTxtBx.Text = "FILE OPENED"; //++++++++++++++++++++++++++++++++++
-                                    break;
+
+                            //POPULATE (SOMETHING?) WITH CARD DATA
+
+                            //testTxtBx.Text = "FILE OPENED"; //++++++++++++++++++++++++++++++++++
+                            break;
                                 case "addToFile": //FILE MUST BE OPENED FIRST!!! 
 
                                     try
                                     {
-                                       
-                                        //write list into string. 
-                                        //write string into file 
-                                        await FileIO.WriteTextAsync(textFile, testTxtBx.Text); //WRITES to file CHANGE TXT BLOCK TO LIST STRING
-                                        testTxtBx.Text = "FILE APPENDED"; //++++++++++++++++++++++++++++++++++
+
+
+                                //////////============================================TEST
+
+                                    //add word to list
+                                    addToCardNamesList("testAdd");
+
+                                    //turn word to string 
+                                    cardNamesString = makeCardNamesString();
+                                    
+                                    
+
+                                //write string into file 
+                                await FileIO.WriteTextAsync(textFile, cardNamesString); //WRITES to file CHANGE TXT BLOCK TO LIST STRING
+
+                                //DISPLAY CARDNAMES
+                                displayCards(cardNamesList);
+
+
+                                testTxtBx.Text = "FILE APPENDED"; //++++++++++++++++++++++++++++++++++
                                     }
                                     catch
                                     {
@@ -130,12 +172,12 @@ namespace MobileApplicationsProject
 
 
 
-                //}
-                //catch
-                //{
-                    //fileNameTxtBx.PlaceholderText = "File not found!";
-               // }
-                
+            //}
+            //catch
+            //{
+            //fileNameTxtBx.PlaceholderText = "File not found!";
+            // }
+
 
             //} ==========ELSE
 
@@ -154,22 +196,36 @@ namespace MobileApplicationsProject
             //PUT WANTED FILE CONTENTS INTO STRING
             // message = await FileIO.ReadTextAsync(wantedFile);
             // break;
-
+            return cardNamesList;
         }
 
       
         private void displayFiles(IReadOnlyList<StorageFile> allFiles)
         {
-
+            testTxtBx2.Text = String.Empty; ////////////////////////////////////TEST
             foreach (StorageFile file in allFiles)
             {
                 testTxtBx2.Text += file.DisplayName + " ";
+                //MAKE BUTTONS HERE!! ===================================================================
             }
 
         }
 
 
-        private List<string> makeCardNamesList(string cardNamesString, List<string> cardNamesList)
+        private void displayCards(List<string> cardNamesList)
+        {
+            testTxtBx2.Text = String.Empty; ////////////////////////////////////TEST
+            foreach (string card in cardNamesList)
+            {
+                testTxtBx2.Text += card + " ";
+                //MAKE BUTTONS HERE!! ===================================================================
+            }
+        }
+
+
+
+        //private List<string> makeCardNamesList(string cardNamesString, List<string> cardNamesList)
+        private List<string> makeCardNamesList(string cardNamesString)
         {
             //make cardNamesList from cardNamesString 
 
@@ -179,22 +235,26 @@ namespace MobileApplicationsProject
                 cardNamesList.Add(element);      
             }
 
+            /*testTxtBx2.Text = String.Empty;//====================================================TEST
+
             for (int i = 0; i < cardNamesList.Count; i++) //====================================================TEST
             {
                 testTxtBx2.Text += cardNamesList[i].ToString() + " "; 
             }
-            
-            return null;
+            */
+
+            return cardNamesList;
 
         }
 
-        private string addToCardNamesList(List<string> cardNamesList, string cardName)
+        private List<string> addToCardNamesList(string cardName)
         {
+            cardNamesList.Add(cardName);
 
-            return null;
+            return cardNamesList;
         }
 
-        private string makeCardNamesString(List<string> cardNamesList, string cardNamesString)
+        private string makeCardNamesString()
         {
             //make cardNamesString from cardNamesList
 
@@ -211,41 +271,63 @@ namespace MobileApplicationsProject
             //trim leading and trailing whitespace. convert to lowercase. replace spaces with hyphens
             string userInput = txtBxUserInput.Trim().ToLower().Replace(" ", "-"); 
 
-            testTxtBx.Text = userInput; /////////////=====================================================
+            ///////////////////////////testTxtBx.Text = userInput; /////////////=====================================================
            
             return userInput;
           
         }
 
-        
 
 
-        private void openFileBtn_Click(object sender, RoutedEventArgs e)
+
+        private async void openFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            fileName = formatUserInput(fileNameTxtBx.Text);
 
-            fileActions("openFile", "testFile3.txt"); //++++++++++++++
-        }
+            await fileActions("openFile", fileName, cardNamesList); //++++++++++++++
 
-        private void makeFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-            string fileName = formatUserInput(fileNameTxtBx.Text);
 
-            fileActions("makeFile", fileName); //+++++++++++++++++++
-        }
+            testTxtBx2.Text = String.Empty;//====================================================TEST
 
-        private void addToFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-            fileActions("addToFile", "testFile3.txt"); //++++++++++++++
-        }
+            for (int i = 0; i < cardNamesList.Count; i++) //====================================================TEST
+            {
+                testTxtBx2.Text += cardNamesList[i].ToString() + " ";
+            }
 
-        private void deleteFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-            fileActions("deleteFile", "testFile3.txt"); //++++++++++++++
+            
         }
 
 
-        private void deleteCardBtn_Click(object sender, RoutedEventArgs e)
+        private async void makeFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            fileName = formatUserInput(fileNameTxtBx.Text);
+
+            await fileActions("makeFile", fileName, cardNamesList); //+++++++++++++++++++
+        }
+
+
+        private async void addToFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            await fileActions("addToFile", fileName, cardNamesList); //++++++++++++++
+        }
+
+        private async void deleteFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            fileName = formatUserInput(fileNameTxtBx.Text);
+
+            await fileActions("deleteFile", fileName, cardNamesList);
+
+            ///fileActions("deleteFile", "testFile3.txt"); //++++++++++++++
+        }
+
+
+        private async void deleteCardBtn_Click(object sender, RoutedEventArgs e)
+        {
+            fileName = formatUserInput(fileNameTxtBx.Text);
+
+            await fileActions("deleteFile", fileName, cardNamesList);
             testTxtBx.Text = "CARD DELETED"; //+++++++++++++++++++++++++++++++++
         }
 
