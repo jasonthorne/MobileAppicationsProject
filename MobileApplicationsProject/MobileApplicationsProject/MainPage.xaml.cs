@@ -30,8 +30,10 @@ namespace MobileApplicationsProject
 
         ////////////////////////string cardNamesString = "";
         StorageFolder rootFolder = ApplicationData.Current.LocalFolder; //open root folder
-        StorageFile textFile;
+        
         List<string> cardNamesList = new List<string>();
+        List<string> fileNamesList = new List<string>(); ///NOT USED!!!!
+
         string cardNamesString; //////////////////////////////////might not need to be here
         //List<string> cardNamesList = new List<string>();
         string fileName; 
@@ -39,6 +41,16 @@ namespace MobileApplicationsProject
         public MainPage()
         {
             this.InitializeComponent();
+
+          
+            initDecklists();
+        }
+
+        private async void initDecklists()
+        {
+            await fileActions("*", "*", cardNamesList);
+
+            //return null;
         }
 
         //private async void fileActions(string request, string fileName)
@@ -55,8 +67,9 @@ namespace MobileApplicationsProject
 
             if (request == "makeFile")
             {
+               
                 //CREATE FILE IN APP FOLDER
-                textFile = await appFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+                StorageFile textFile = await appFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
                 ////////////////////String cardNamesString = await FileIO.ReadTextAsync(textFile);
 
                 //INIT CONTENT
@@ -77,8 +90,9 @@ namespace MobileApplicationsProject
                 //FETCH ALL FILES
                 var allFiles = await appFolder.GetFilesAsync();
                 
+
                 //DISPLAY ALL FILES 
-                displayFiles(allFiles); ///////////////////ONLY DISPLAYS!!!
+                displayFiles(allFiles); 
 
 
                // try
@@ -112,6 +126,10 @@ namespace MobileApplicationsProject
 
                                case "openFile":
 
+                                    //CLEAR LIST
+                                    cardNamesList.Clear();
+                                    
+
                                     //PUT WANTED FILE CONTENTS INTO STRING
                                     //String 
                                     cardNamesString = await FileIO.ReadTextAsync(wantedFile);
@@ -142,11 +160,13 @@ namespace MobileApplicationsProject
 
                                     //turn word to string 
                                     cardNamesString = makeCardNamesString();
-                                    
-                                    
+
+
 
                                 //write string into file 
-                                await FileIO.WriteTextAsync(textFile, cardNamesString); //WRITES to file CHANGE TXT BLOCK TO LIST STRING
+                                await FileIO.WriteTextAsync(wantedFile, cardNamesString); //WRITES to file CHANGE TXT BLOCK TO LIST STRING
+
+                               
 
                                 //DISPLAY CARDNAMES
                                 displayCards(cardNamesList);
@@ -202,10 +222,19 @@ namespace MobileApplicationsProject
       
         private void displayFiles(IReadOnlyList<StorageFile> allFiles)
         {
+
+            itemlistBox.Items.Clear();
+            
             testTxtBx2.Text = String.Empty; ////////////////////////////////////TEST
             foreach (StorageFile file in allFiles)
             {
-                testTxtBx2.Text += file.DisplayName + " ";
+
+                getListItemName listItemName = new getListItemName(); 
+                listItemName.name = file.DisplayName;
+                itemlistBox.Items.Add(listItemName);
+                testTxtBx2.Text += file.DisplayName + " "; /////////////////////////////////////////////////////////TEST
+                
+                
                 //MAKE BUTTONS HERE!! ===================================================================
             }
 
@@ -223,6 +252,23 @@ namespace MobileApplicationsProject
         }
 
 
+        /*
+        private void Selectionchanged_Eventhandler_of_Listbox(object sender, SelectionChangedEventArgs e)
+        {
+            //Get the data object that represents the current selected item
+            showName name = (sender as ListBox).SelectedItem as showName;
+
+            //Checking whether that it is not null 
+            if (name != null)
+            {
+
+                //Display the name  in the textblock given in the listbox.
+                itemBlk.Text = name.name;
+                
+
+            }
+
+        }*/
 
         //private List<string> makeCardNamesList(string cardNamesString, List<string> cardNamesList)
         private List<string> makeCardNamesList(string cardNamesString)
@@ -271,7 +317,7 @@ namespace MobileApplicationsProject
             //trim leading and trailing whitespace. convert to lowercase. replace spaces with hyphens
             string userInput = txtBxUserInput.Trim().ToLower().Replace(" ", "-"); 
 
-            ///////////////////////////testTxtBx.Text = userInput; /////////////=====================================================
+           ///testTxtBx.Text = userInput; /////////////=====================================================
            
             return userInput;
           
@@ -300,9 +346,13 @@ namespace MobileApplicationsProject
 
         private async void makeFileBtn_Click(object sender, RoutedEventArgs e)
         {
+
             fileName = formatUserInput(fileNameTxtBx.Text);
 
+            fileNameTxtBx.Text = String.Empty;
+
             await fileActions("makeFile", fileName, cardNamesList); //+++++++++++++++++++
+
         }
 
 
@@ -366,6 +416,58 @@ namespace MobileApplicationsProject
             findCardTxtBx.Text = String.Empty;
         }
 
-       
+
+        private async void itemDeleteBtn_click(object sender, RoutedEventArgs e)
+        {
+
+            ///////////////////////ask user if sure for delete!! ==============================================================
+
+           
+
+            getListItemName listItemName = (sender as Button).DataContext as getListItemName;
+
+            if (listItemName != null)
+            {
+
+                string fileName = listItemName.name;
+
+                await fileActions("deleteFile", fileName, cardNamesList); //++++++++++++++
+
+
+                testTxtBx2.Text = String.Empty;//====================================================TEST
+
+                for (int i = 0; i < cardNamesList.Count; i++) //====================================================TEST
+                {
+                    testTxtBx2.Text += cardNamesList[i].ToString() + " ";
+                }
+            }
+
+        }
+
+        private async void applistBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            getListItemName listItemName = (sender as ListBox).SelectedItem as getListItemName;
+
+            if (listItemName != null)
+            {
+                string fileName = listItemName.name;
+
+                await fileActions("openFile", fileName, cardNamesList); //++++++++++++++
+
+
+                testTxtBx2.Text = String.Empty;//====================================================TEST
+
+                for (int i = 0; i < cardNamesList.Count; i++) //====================================================TEST
+                {
+                    testTxtBx2.Text += cardNamesList[i].ToString() + " ";
+                }
+            }
+           
+        }
+    }
+
+    public class getListItemName
+    {
+        public string name { get; set; }
     }
 }
