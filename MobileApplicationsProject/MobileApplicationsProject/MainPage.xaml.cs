@@ -476,7 +476,7 @@ namespace MobileApplicationsProject
                 }
                 else
                 {
-                    //CHANGE STATE HERE!! 
+                    VisualStateManager.GoToState(this, "cardsState", false); //change state
                     currentDeckFile = itemName;
                     await fileActions("openFile", currentDeckFile, cardNamesList);   
                   
