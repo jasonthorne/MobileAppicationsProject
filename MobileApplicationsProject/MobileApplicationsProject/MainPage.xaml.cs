@@ -36,20 +36,23 @@ namespace MobileApplicationsProject
 
         string cardNamesString; //////////////////////////////////might not need to be here
         //List<string> cardNamesList = new List<string>();
-        private string fileName;
-        string httpCardName;
+        private string fileName = "";
+        string httpCardName = "";
+        private string currentDeckFile = "";
+        private string cardToDelete = "";
+
         bool inDecklist = false;
 
         public MainPage()
         {
             this.InitializeComponent();
-           
 
-          initApp(cardNamesList);
+
+            initApp(cardNamesList);
 
         }
 
-        
+
         private async void initApp(List<string> cardNamesList)
         {
 
@@ -66,13 +69,13 @@ namespace MobileApplicationsProject
             //return null;
         }
 
-       /* private async Task<List<string>> makeFile(string request, string fileName, List<string> cardNamesList)
-        {
+        /* private async Task<List<string>> makeFile(string request, string fileName, List<string> cardNamesList)
+         {
 
-            StorageFile textFile = await appFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-            Return cardNamesList;
-        }
-        */
+             StorageFile textFile = await appFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+             Return cardNamesList;
+         }
+         */
 
         //private async Task fileActions(string request, string fileName)
         private async Task<List<string>> fileActions(string request, string fileName, List<string> cardNamesList)  //OPTIONS: create file, add to file,  open file, delete file, save file 
@@ -102,7 +105,7 @@ namespace MobileApplicationsProject
                 //////////////testTxtBx.Text = await FileIO.ReadTextAsync(textFile); //++++++++++++++++++++++++++++++++++TEST
             }
             //else
-           //{
+            //{
 
 
             ///refreshFiles(); ///////////////////////DO THIS SOON!!! 
@@ -114,118 +117,122 @@ namespace MobileApplicationsProject
 
             //DISPLAY ALL FILES 
             displayFiles(allFiles);
-        
+
             try
-            { 
-             
-                    //FETCH WANTED FILE FROM ALL FILES
-                    StorageFile wantedFile = allFiles.FirstOrDefault(x => x.Name == fileName);
+            {
+
+                //FETCH WANTED FILE FROM ALL FILES
+                StorageFile wantedFile = allFiles.FirstOrDefault(x => x.Name == fileName);
 
 
-                    switch (request)
-                    {
-                        case "deleteFile":
-                            //DELETE FILE FROM FOLDER
-                            await wantedFile.DeleteAsync();
+                switch (request)
+                {
+                    case "deleteFile":
+                        //DELETE FILE FROM FOLDER
+                        await wantedFile.DeleteAsync();
 
-                    
+                        //FETCH ALL FILES
+                        allFiles = await appFolder.GetFilesAsync();//==========================================
 
-                    //FETCH ALL FILES
-                    allFiles = await appFolder.GetFilesAsync();//==========================================
+                        //DISPLAY ALL FILES 
+                        displayFiles(allFiles);
 
-                    //DISPLAY ALL FILES 
-                    displayFiles(allFiles); 
+                        testTxtBx.Text = "FILE DELETED"; //==========================================
 
-                    testTxtBx.Text = "FILE DELETED"; //==========================================
-
-                            break;
-                        default:
-
-                                
-                    switch (request)
-                            {
-
-                               case "openFile":
-
-                                    //CLEAR LIST
-                                    //cardNamesList.Clear();
+                        break;
+                    default:
 
 
-                            //PUT WANTED FILE CONTENTS INTO STRING
-                            //cardNamesString = String.Empty;
-                            cardNamesString = await FileIO.ReadTextAsync(wantedFile);
+                        switch (request)
+                        {
+
+                            case "openFile":
+
+                                //CLEAR LIST
+                                //cardNamesList.Clear();
 
 
-                            //MAKE LIST OF CARD NAMES FROM STRING
-                            ///////////cardNamesList.Clear();
-                           cardNamesList = makeCardNamesList(cardNamesString, cardNamesList); //, cardNamesList); ////////////////////////cardNamesString ============================
-
-                                    //DISPLAY CARDNAMES
-                                    displayCards(cardNamesList);
-
-                            //MAKE CALLS USING CARDNAMES
+                                //PUT WANTED FILE CONTENTS INTO STRING
+                                //cardNamesString = String.Empty;
+                                cardNamesString = await FileIO.ReadTextAsync(wantedFile);
 
 
-                            //POPULATE (SOMETHING?) WITH CARD DATA
+                                //MAKE LIST OF CARD NAMES FROM STRING
+                                ///////////cardNamesList.Clear();
+                                cardNamesList = makeCardNamesList(cardNamesString, cardNamesList); //, cardNamesList); ////////////////////////cardNamesString ============================
 
-                            //testTxtBx.Text = "FILE OPENED"; //++++++++++++++++++++++++++++++++++
-                            break;
-                                case "addToFile": //FILE MUST BE OPENED FIRST!!! 
+                                //DISPLAY CARDNAMES
+                                displayCards(cardNamesList);
 
-                                    try
-                                    {
+                                //MAKE CALLS USING CARDNAMES
 
 
-                                
+                                //POPULATE (SOMETHING?) WITH CARD DATA
 
-                                    testTxtBx.Text = httpCardName;
-                                //add word to list
-                                addToCardNamesList(httpCardName, cardNamesList);               //(httpCardName);
+                                //testTxtBx.Text = "FILE OPENED"; //++++++++++++++++++++++++++++++++++
+                                break;
+                            case "addToFile": //FILE MUST BE OPENED FIRST!!! 
+
+                                try
+                                {
+
+
+
+
+                                    testTxtBx.Text = httpCardName; /////////////////////////////////////////////////////////TEST
+                                    //add word to list
+                                    addToCardNamesList(httpCardName, cardNamesList);               //(httpCardName);
 
                                     //turn word to string 
                                     cardNamesString = makeCardNamesString();
 
 
 
-                                //write string into file 
-                                await FileIO.WriteTextAsync(wantedFile, cardNamesString); //WRITES to file CHANGE TXT BLOCK TO LIST STRING
-
-                               
-
-                                //DISPLAY CARDNAMES
-                                displayCards(cardNamesList);
+                                    //write string into file 
+                                    await FileIO.WriteTextAsync(wantedFile, cardNamesString); //WRITES to file CHANGE TXT BLOCK TO LIST STRING
 
 
-                                testTxtBx.Text = "FILE APPENDED"; //++++++++++++++++++++++++++++++++++
-                                    }
-                                    catch
-                                    {
-                                        testTxtBx.Text = "A Decklist must be opened first"; //may not be error!! //=============================
-                                    }
 
-                                    break;
-                                case "removeFromFile":
-
-
-                                   cardNamesList =  removeFromCardList(fileName, cardNamesList);
-
+                                    //DISPLAY CARDNAMES
                                     displayCards(cardNamesList);
 
-                            //method for removing from premade list. passing in name of card to be removed. then call 'open file again'
-                            testTxtBx.Text = "REMOVED FROM FILE"; //++++++++++++++++++++++++++++++++++
-                                                                          //fileActions("openFile", "testFile3.txt"); //++++++++++++++
-                                    break;
-                              }   
-                        break;             
-                    }
+
+                                    testTxtBx.Text = "FILE APPENDED"; //++++++++++++++++++++++++++++++++++
+                                }
+                                catch
+                                {
+                                    testTxtBx.Text = "A Decklist must be opened first"; //may not be error!! //=============================
+                                }
+
+                                break;
+                            case "removeFromFile":
+
+
+                                cardNamesList = removeFromCardList(cardToDelete, cardNamesList);
+
+                                cardToDelete = String.Empty;
+
+                                cardNamesString = makeCardNamesString();
+
+                                await FileIO.WriteTextAsync(wantedFile, cardNamesString);
+
+                                displayCards(cardNamesList);
+
+                               
+                                testTxtBx.Text = "REMOVED FROM FILE"; //++++++++++++++++++++++++++++++++++
+                                                                      //fileActions("openFile", "testFile3.txt"); //++++++++++++++
+                                break;
+                        }
+                        break;
+                }
 
 
 
             }
-            catch
+            catch (Exception e)
             {
-            fileNameTxtBx.PlaceholderText = "TEST MESSAGE FROM TRY CATCH";
-             }
+                fileNameTxtBx.PlaceholderText = "TEST MESSAGE FROM TRY CATCH";
+            }
 
 
             //}// ==========ELSE
@@ -249,24 +256,24 @@ namespace MobileApplicationsProject
         }
 
 
-       
+
 
         private void displayFiles(IReadOnlyList<StorageFile> allFiles)
         {
 
             listItemBox.Items.Clear();
-            
+
             testTxtBx2.Text = String.Empty; ////////////////////////////////////TEST
 
             foreach (StorageFile file in allFiles)
             {
 
-                getListItemName listItemName = new getListItemName(); 
+                getListItemName listItemName = new getListItemName();
                 listItemName.name = file.DisplayName;
                 listItemBox.Items.Add(listItemName);
                 testTxtBx2.Text += file.DisplayName + " "; /////////////////////////////////////////////////////////TEST
-                
-              
+
+
             }
 
         }
@@ -287,12 +294,12 @@ namespace MobileApplicationsProject
                 listItemName.name = card;
                 listItemBox.Items.Add(listItemName);
                 testTxtBx2.Text += card + " "; /////////////////////////////////////////////////////////TEST
-                
+
             }
         }
 
 
-      
+
 
         private List<string> makeCardNamesList(string cardNamesString, List<string> cardNamesList)
         //private List<string> makeCardNamesList(string cardNamesString)
@@ -300,19 +307,26 @@ namespace MobileApplicationsProject
             //make cardNamesList from cardNamesString 
             cardNamesList.Clear();
 
-            String [] cardNamesArray = cardNamesString.Split(',');
-            foreach (string element in cardNamesArray)
+            if (!String.IsNullOrEmpty(cardNamesString))
             {
-                cardNamesList.Add(element);      
+                String[] cardNamesArray = cardNamesString.Split(',');
+                foreach (string element in cardNamesArray)
+                {
+                    if (!String.IsNullOrEmpty(element))
+                    {
+                        cardNamesList.Add(element);
+                    }
+                }
+
+                /*testTxtBx2.Text = String.Empty;//====================================================TEST
+
+                for (int i = 0; i < cardNamesList.Count; i++) //====================================================TEST
+                {
+                    testTxtBx2.Text += cardNamesList[i].ToString() + " "; 
+                }
+                */
             }
 
-            /*testTxtBx2.Text = String.Empty;//====================================================TEST
-
-            for (int i = 0; i < cardNamesList.Count; i++) //====================================================TEST
-            {
-                testTxtBx2.Text += cardNamesList[i].ToString() + " "; 
-            }
-            */
 
             return cardNamesList;
 
@@ -328,14 +342,21 @@ namespace MobileApplicationsProject
 
         private List<string> removeFromCardList(string cardName, List<string> cardNamesList)
         {
-            foreach (string card in cardNamesList)
+            int indexToRemove = -1;
+            for (int i = 0; i < cardNamesList.Count; i++)
             {
-                if (card == cardName)
+                string card = cardNamesList.ElementAt(i);
+                if (card.Equals(cardName))
                 {
-                    cardNamesList.Remove(card);
-                    //break;
+                    indexToRemove = i;
+                    break;
                 }
 
+            }
+
+            if (indexToRemove != -1)
+            {
+                cardNamesList.RemoveAt(indexToRemove);
             }
 
             return cardNamesList;
@@ -359,12 +380,12 @@ namespace MobileApplicationsProject
         private string formatUserInput(string txtBxUserInput)
         {
             //trim leading and trailing whitespace. convert to lowercase. replace spaces with hyphens
-            string userInput = txtBxUserInput.Trim().ToLower().Replace(" ", "-"); 
+            string userInput = txtBxUserInput.Trim().ToLower().Replace(" ", "-");
 
-           ///testTxtBx.Text = userInput; /////////////=====================================================
-           
+            ///testTxtBx.Text = userInput; /////////////=====================================================
+
             return userInput;
-          
+
         }
 
 
@@ -385,7 +406,7 @@ namespace MobileApplicationsProject
                 testTxtBx2.Text += cardNamesList[i].ToString() + " ";
             }
 
-            
+
         }
 
 
@@ -404,10 +425,14 @@ namespace MobileApplicationsProject
 
         private async void addToFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            //fileName = httpCardName;
-
-            await fileActions("addToFile", fileName, cardNamesList); //++++++++++++++
-            //await fileActions("addToFile", fileName); //++++++++++++++
+            if (inDecklist)
+            {
+                await fileActions("addToFile", currentDeckFile, cardNamesList);
+            }
+            else
+            {
+                await fileActions("addToFile", fileName, cardNamesList);
+            }
         }
 
         private async void deleteFileBtn_Click(object sender, RoutedEventArgs e)
@@ -425,7 +450,6 @@ namespace MobileApplicationsProject
         private async void deleteCardBtn_Click(object sender, RoutedEventArgs e)
         {
             fileName = formatUserInput(fileNameTxtBx.Text);
-
             await fileActions("deleteFile", fileName, cardNamesList);
             //await fileActions("deleteFile", fileName);
             testTxtBx.Text = "CARD DELETED"; //+++++++++++++++++++++++++++++++++
@@ -435,32 +459,32 @@ namespace MobileApplicationsProject
         private async void findCardBtn_Click(object sender, RoutedEventArgs e)
         {
 
-           
+
             httpCardName = formatUserInput(findCardTxtBx.Text);
             findCardTxtBx.Text = String.Empty;
-          
+
 
             try
             {
                 findCardTxtBx.PlaceholderText = "Enter Card name";
-                RootObject foundCard = await FindCards.GetCardData(httpCardName); 
+                RootObject foundCard = await FindCards.GetCardData(httpCardName);
 
                 testTxtBx.Text = foundCard.editions[0].multiverse_id.ToString(); //=====================================TEST
-                
+
 
                 string image = String.Format(foundCard.editions[0].image_url);
                 showCardImg.Source = new BitmapImage(new Uri(image, UriKind.Absolute));
-               
+
             }
             catch
             {
 
-                findCardTxtBx.PlaceholderText = "Card not found!"; 
+                findCardTxtBx.PlaceholderText = "Card not found!";
             }
 
         }
 
-       
+
 
         private void findCardTxtBx_Tapped(object sender, TappedRoutedEventArgs e) //CHECK THIS!! ++++++++++++++++++++++++++
         {
@@ -473,7 +497,7 @@ namespace MobileApplicationsProject
 
             ///////////////////////ask user if sure for delete!! ==============================================================
 
-           
+
 
             getListItemName listItemName = (sender as Button).DataContext as getListItemName;
 
@@ -484,7 +508,8 @@ namespace MobileApplicationsProject
 
                 if (inDecklist)
                 {
-                    await fileActions("removeFromFile", itemName, cardNamesList); //++++++++++++++
+                    cardToDelete = itemName;
+                    await fileActions("removeFromFile", currentDeckFile, cardNamesList); //++++++++++++++
                     //await fileActions("removeFromFile", itemName); //++++++++++++++
                 }
                 else
@@ -494,7 +519,7 @@ namespace MobileApplicationsProject
                     //await fileActions("deleteFile", itemName); //++++++++++++++
                 }
 
-                
+
 
                 testTxtBx2.Text = String.Empty;//====================================================TEST
 
@@ -509,8 +534,6 @@ namespace MobileApplicationsProject
         private async void listItemBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            
-
             getListItemName listItemName = (sender as ListBox).SelectedItem as getListItemName;
 
             if (listItemName != null)
@@ -521,7 +544,7 @@ namespace MobileApplicationsProject
 
                 if (inDecklist)
                 {
-                  
+
                     RootObject foundCard = await FindCards.GetCardData(itemName);
 
                     testTxtBx.Text = foundCard.editions[0].multiverse_id.ToString(); //=====================================TEST
@@ -532,11 +555,12 @@ namespace MobileApplicationsProject
                 }
                 else
                 {
-                   await fileActions("openFile", itemName, cardNamesList); //++++++++++++++
+                    currentDeckFile = itemName;
+                    await fileActions("openFile", currentDeckFile, cardNamesList); //++++++++++++++
                     //await fileActions("openFile", itemName); //++++++++++++++
                 }
 
-              
+
 
 
                 testTxtBx2.Text = String.Empty;//====================================================TEST
@@ -546,12 +570,13 @@ namespace MobileApplicationsProject
                     testTxtBx2.Text += cardNamesList[i].ToString() + " ";
                 }
             }
-           
+
         }
 
         private async void closeCardListBtn_Click(object sender, RoutedEventArgs e)
         {
             inDecklist = false; //reset 
+            currentDeckFile = String.Empty; //reset 
 
             await fileActions("*", "*", cardNamesList);
             //await fileActions("*", "*");

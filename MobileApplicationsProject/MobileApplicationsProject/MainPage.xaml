@@ -36,7 +36,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Hub x:Name="textBlock" x:Uid="HubControl" Header="Localization Test" Margin="450,50,-408,536"/>
+        <Hub x:Name="textBlock" x:Uid="HubControl" Header="Localization Test" Margin="415,80,-373,506"/>
 
 
 

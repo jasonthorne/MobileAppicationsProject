@@ -15,7 +15,7 @@ namespace MobileApplicationsProject
     {
        
 
-        public static async Task<RootObject> GetCardData(string httpCardName) 
+        public static async Task<RootObject> GetCardData(string httpCardName)  
         {
 
             var http = new HttpClient(); //set up client
