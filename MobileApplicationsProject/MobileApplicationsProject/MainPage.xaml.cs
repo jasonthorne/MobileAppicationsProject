@@ -407,6 +407,8 @@ namespace MobileApplicationsProject
                 string image = String.Format(foundCard.editions[0].image_url);
                 showCardImg.Source = new BitmapImage(new Uri(image, UriKind.Absolute));
 
+               
+
             }
             catch (Exception ex)
             {
@@ -474,8 +476,9 @@ namespace MobileApplicationsProject
                 }
                 else
                 {
+                    //CHANGE STATE HERE!! 
                     currentDeckFile = itemName;
-                    await fileActions("openFile", currentDeckFile, cardNamesList); 
+                    await fileActions("openFile", currentDeckFile, cardNamesList);   
                   
                 }
 
