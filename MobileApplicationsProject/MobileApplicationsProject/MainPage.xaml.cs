@@ -30,7 +30,7 @@ namespace MobileApplicationsProject
 
        
         StorageFolder rootFolder = ApplicationData.Current.LocalFolder; //opens root folder
-        private List<string> cardNamesList = new List<string>();
+        private List<string> cardNamesList = new List<string>(); //list for holding card names
 
         private string cardNamesString = "";
         private string fileName = "";
@@ -45,12 +45,12 @@ namespace MobileApplicationsProject
             this.InitializeComponent();
 
 
-            initApp(cardNamesList);
+            initApp(cardNamesList); 
 
         }
 
 
-        private async void initApp(List<string> cardNamesList)
+        private async void initApp(List<string> cardNamesList) //to initilise first read of files in device
         {
 
             await fileActions("*", "*", cardNamesList);
@@ -58,10 +58,10 @@ namespace MobileApplicationsProject
         }
 
 
-        private async Task<List<string>> fileActions(string request, string fileName, List<string> cardNamesList)
+        private async Task<List<string>> fileActions(string request, string fileName, List<string> cardNamesList) //list of actions regarding files
         {
 
-            fileName += ".txt";
+            fileName += ".txt"; //apend to file name
 
 
             //CREATE/OPEN APP FOLDER
@@ -118,22 +118,14 @@ namespace MobileApplicationsProject
 
 
                                 //PUT WANTED FILE CONTENTS INTO STRING
-
                                 cardNamesString = await FileIO.ReadTextAsync(wantedFile);
 
 
                                 //MAKE LIST OF CARD NAMES FROM STRING
-
                                 cardNamesList = makeCardNamesList(cardNamesString, cardNamesList);
 
                                 //DISPLAY CARDNAMES
                                 displayCards(cardNamesList);
-
-                                //MAKE CALLS USING CARDNAMES
-
-
-                                //POPULATE (SOMETHING?) WITH CARD DATA
-
 
                                 break;
                             case "addToFile":
@@ -166,11 +158,15 @@ namespace MobileApplicationsProject
                             case "removeFromFile":
 
 
+                                //remove card from list
                                 cardNamesList = removeFromCardList(cardToDelete, cardNamesList);
 
+                                
                                 cardToDelete = String.Empty;
 
+                                //remake string
                                 cardNamesString = makeCardNamesString();
+
 
                                 await FileIO.WriteTextAsync(wantedFile, cardNamesString);
 
@@ -194,7 +190,7 @@ namespace MobileApplicationsProject
 
 
 
-        private void displayFiles(IReadOnlyList<StorageFile> allFiles)
+        private void displayFiles(IReadOnlyList<StorageFile> allFiles) //display files to user
         {
 
             listItemBox.Items.Clear();
@@ -212,7 +208,7 @@ namespace MobileApplicationsProject
         }
 
 
-        private void displayCards(List<string> cardNamesList)
+        private void displayCards(List<string> cardNamesList) //display cards 
         {
 
             listItemBox.Items.Clear();
@@ -238,7 +234,7 @@ namespace MobileApplicationsProject
 
             if (!String.IsNullOrEmpty(cardNamesString))
             {
-                String[] cardNamesArray = cardNamesString.Split(',');
+                String[] cardNamesArray = cardNamesString.Split(','); //split into list elements by ','
                 foreach (string element in cardNamesArray)
                 {
                     if (!String.IsNullOrEmpty(element))
@@ -254,7 +250,7 @@ namespace MobileApplicationsProject
 
         }
 
-        private List<string> addToCardNamesList(string cardName, List<string> cardNamesList)
+        private List<string> addToCardNamesList(string cardName, List<string> cardNamesList) //add to list 
         {
 
             cardNamesList.Add(cardName);
@@ -262,7 +258,7 @@ namespace MobileApplicationsProject
             return cardNamesList;
         }
 
-        private List<string> removeFromCardList(string cardName, List<string> cardNamesList)
+        private List<string> removeFromCardList(string cardName, List<string> cardNamesList) //remove from list 
         {
             int indexToRemove = -1;
             for (int i = 0; i < cardNamesList.Count; i++)
@@ -297,7 +293,7 @@ namespace MobileApplicationsProject
             return cardNamesString;
         }
 
-        private string formatUserInput(string txtBxUserInput)
+        private string formatUserInput(string txtBxUserInput) //format user input for api call
         {
             //trim leading and trailing whitespace. convert to lowercase. replace spaces with hyphens
             string userInput = txtBxUserInput.Trim().ToLower().Replace(" ", "-");
@@ -365,7 +361,7 @@ namespace MobileApplicationsProject
         private async void itemDeleteBtn_click(object sender, RoutedEventArgs e)
         {
 
-            ///////////////////////ask user if sure for delete!! ==============================================================
+            
 
             getListItemName listItemName = (sender as Button).DataContext as getListItemName;
 

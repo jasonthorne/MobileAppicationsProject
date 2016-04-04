@@ -31,12 +31,14 @@ namespace MobileApplicationsProject
 
             return result; //return result object
 
+            //made with help from the following link:  https://www.youtube.com/playlist?list=PLi2hbezQRVS0cPMeW3uDlUHnO_rPvJCV9
+
         }
     }
 
     
      
-   
+   //getters and setters for card data
     public class Formats
     {
         public string commander { get; set; }

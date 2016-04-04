@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="31548JasonThorne.MTGDeckbuilder" Publisher="CN=CEEA49EB-43C4-4E43-A0D1-4310AEFA7BEC" Version="1.1.7.0" />
+  <Identity Name="31548JasonThorne.MTGDeckbuilder" Publisher="CN=CEEA49EB-43C4-4E43-A0D1-4310AEFA7BEC" Version="1.1.17.0" />
   <mp:PhoneIdentity PhoneProductId="83635078-19f3-442f-989b-7ad52a061cf9" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>MTG Deckbuilder</DisplayName>
@@ -15,9 +15,9 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MobileApplicationsProject.App">
-      <uap:VisualElements DisplayName="MTG Deckbuilder" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\44x44.png" Description="An MTG deck creation App." BackgroundColor="green">
-        <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\24x24.png" />
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="MTG Deckbuilder" Square71x71Logo="Assets\71x71.png">
+      <uap:VisualElements DisplayName="MTG Deckbuilder" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\44x44.scale-100.png" Description="An MTG deck creation App." BackgroundColor="green">
+        <uap:LockScreen Notification="badgeAndTileText" BadgeLogo="Assets\24x24.scale-100.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="MTG Deckbuilder" Square71x71Logo="Assets\71x71.scale-100.png">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
             <uap:ShowOn Tile="wide310x150Logo" />
