@@ -119,6 +119,14 @@
     <None Include="MobileApplicationsProject_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\1240x600.png" />
+    <Content Include="Assets\24x24.png" />
+    <Content Include="Assets\300x300.png" />
+    <Content Include="Assets\310x310.png" />
+    <Content Include="Assets\48x48.png" />
+    <Content Include="Assets\50x50.png" />
+    <Content Include="Assets\620x300.png" />
+    <Content Include="Assets\88x88.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
