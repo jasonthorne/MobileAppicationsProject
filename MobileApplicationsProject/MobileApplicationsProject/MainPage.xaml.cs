@@ -308,16 +308,6 @@ namespace MobileApplicationsProject
 
 
 
-        /*
-        private async void openFileBtn_Click(object sender, RoutedEventArgs e)
-        {
-            fileName = formatUserInput(fileNameTxtBx.Text);
-
-            await fileActions("openFile", fileName, cardNamesList); 
-
-        }*/
-
-
         private async void makeFileBtn_Click(object sender, RoutedEventArgs e)
         {
 

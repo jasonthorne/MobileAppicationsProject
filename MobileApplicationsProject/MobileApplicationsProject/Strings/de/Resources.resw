@@ -12,10 +12,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HubControl.Background" xml:space="preserve">
-    <value>Brown</value>
-  </data>
-  <data name="HubControl.Header" xml:space="preserve">
-    <value>UWP-Lokalisierung </value>
+  <data name="instructions.Text" xml:space="preserve">
+    <value>Erstellen Sie oder öffnen Sie ein Deck, dann suchen Sie und fügen Sie Karten hinzu.</value>
   </data>
 </root>
