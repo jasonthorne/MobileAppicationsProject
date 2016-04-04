@@ -8,8 +8,7 @@
       <group id="MOBILEAPPLICATIONSPROJECT/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
         <trans-unit id="instructions.Text" translate="yes" xml:space="preserve">
           <source>Create or open a Deck, then search for and add Cards.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Erstellen Sie oder öffnen Sie ein Deck, dann suchen Sie und fügen Sie Karten hinzu.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final" state-qualifier="mt-suggestion">Erstellen Sie oder öffnen Sie ein Deck, dann suchen Sie und fügen Sie Karten hinzu.</target>
         </trans-unit>
       </group>
     </body>

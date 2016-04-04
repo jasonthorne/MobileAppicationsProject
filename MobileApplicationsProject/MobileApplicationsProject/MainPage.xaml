@@ -9,6 +9,8 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <!-- states and event triggers-->
         <Interactivity:Interaction.Behaviors>
             <Core:EventTriggerBehavior EventName="Loading">
                 <Core:GoToStateAction StateName="deckListsState"/>
@@ -39,54 +41,64 @@
         </VisualStateManager.VisualStateGroups>
 
 
+        <!-- frame for elements-->
+        <StackPanel x:Name="frame" VerticalAlignment="Stretch">
 
-        <!-- -->
-        <TextBlock x:Name="instructionsTxtBlk" x:Uid="instructions" HorizontalAlignment="Left" Margin="51,10,0,0" TextWrapping="Wrap" Text="Error: Edit language settings" VerticalAlignment="Top" Height="36" Width="201"/>
+            <!-- multilingual instructions for user-->
+            <StackPanel x:Name="instructions" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <TextBlock x:Name="instructionsTxtBlk" x:Uid="instructions" Text="Please change language settings to: En/De/Fr."  Margin ="10" HorizontalAlignment="Center"  VerticalAlignment="Bottom"/>
+            </StackPanel>
 
-        <TextBox x:Name="fileNameTxtBx" HorizontalAlignment="Left" Margin="10,54,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="175" PlaceholderText="Create new Decklist"/>
-        <Button x:Name="makeFileBtn" Content="&#xE105;" FontFamily="Segoe UI Symbol" FontSize="18"  HorizontalAlignment="Left" Margin="207,51,0,0" VerticalAlignment="Top" Click="makeFileBtn_Click" Height="41" Width="40"/>
+            <!-- input txtboxes-->
+            <Grid Name="input" HorizontalAlignment="Center">
+                <TextBox x:Name="fileNameTxtBx" Text="" PlaceholderText="Create new Decklist" Margin="10" VerticalAlignment="Center" />
+                <TextBox x:Name="findCardTxtBx" Text="" PlaceholderText="Search for Card" Margin="10" VerticalAlignment="Center" />
+            </Grid>
 
-        <TextBox x:Name="findCardTxtBx" HorizontalAlignment="Left" Margin="10,108,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="175" PlaceholderText="Search for Card" />
-        <Button x:Name="findCardBtn" Content="&#xE11A;" FontFamily="Segoe UI Symbol" FontSize="20" HorizontalAlignment="Left" Margin="207,102,0,0" VerticalAlignment="Top" Click="findCardBtn_Click"/>
+            <!-- input buttons-->
+            <Grid Name="inputBtns" HorizontalAlignment="Center">
+                <Button x:Name="makeFileBtn" Content="&#xE105;" FontFamily="Segoe UI Symbol" FontSize="20"  Click="makeFileBtn_Click" Margin="10" />
+                <Button x:Name="findCardBtn" Content="&#xE11A;" FontFamily="Segoe UI Symbol" FontSize="20"  Click="findCardBtn_Click"  Margin="10"/>
+            </Grid>
 
-        <ListBox x:Name="listItemBox" HorizontalAlignment="Left" Height="339" Margin="10,190,0,0" VerticalAlignment="Top" Width="127" SelectionChanged="listItemBox_SelectionChanged"  >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid >
-                        <TextBlock x:Name="itemNameTxtBlk" Text="{Binding name}"  />
-                        <Button x:Name="itemDeleteBtn" Content="&#xE107;" FontFamily="Segoe UI Symbol" FontSize="20" Click="itemDeleteBtn_click" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        </StackPanel>
 
-        <Image x:Name="showCardImg" HorizontalAlignment="Left" Height="290" Margin="184,190,0,0" VerticalAlignment="Top" Width="166"/>
+        <!-- listbox-->
+        <StackPanel x:Name="content" Orientation="Horizontal" HorizontalAlignment="Left" >
 
-        <Button x:Name="closeCardListBtn" Content="&#xE10E;" FontFamily="Segoe UI Symbol" FontSize="20" HorizontalAlignment="Left" Margin="51,547,0,0" VerticalAlignment="Top" Click="closeCardListBtn_Click" Visibility="Visible">
-            <Interactivity:Interaction.Behaviors>
-                <Core:EventTriggerBehavior EventName="Click">
-                    <Core:GoToStateAction StateName="deckListsState"/>
-                </Core:EventTriggerBehavior>
-            </Interactivity:Interaction.Behaviors>
-        </Button>
+            <ListBox x:Name="listItemBox" SelectionChanged="listItemBox_SelectionChanged" Margin="25,0,20,0" Height="250" Width="150">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBlock x:Name="itemNameTxtBlk" Text="{Binding name}" FontSize="15" HorizontalAlignment="Center"/>
+                            <Button x:Name="itemDeleteBtn" Content="&#xE107;" FontFamily="Segoe UI Symbol" FontSize="15" Click="itemDeleteBtn_click" Margin="5" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
+        </StackPanel>
 
-        <Button x:Name="addToFileBtn" Content="&#xE109;" FontFamily="Segoe UI Symbol" FontSize="20" HorizontalAlignment="Left" Margin="207,547,0,0" VerticalAlignment="Top" Click="addToFileBtn_Click"/>
+        <!-- card image-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Image x:Name="showCardImg"  Height="250" Width="150" Margin="20,0,25,0" />
+        </StackPanel>
 
-        <!-- -->
+        <!-- buttons-->
+        <StackPanel Name="buttons" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 
+            <Button x:Name="closeCardListBtn" Content="&#xE10E;" FontFamily="Segoe UI Symbol" FontSize="20" Click="closeCardListBtn_Click" Visibility="Visible" Margin="20">
+                <Interactivity:Interaction.Behaviors>
+                    <Core:EventTriggerBehavior EventName="Click">
+                        <Core:GoToStateAction StateName="deckListsState"/>
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+            </Button>
 
+            <Button x:Name="addToFileBtn" Content="&#xE109;" FontFamily="Segoe UI Symbol" FontSize="20" Click="addToFileBtn_Click" Margin="20"/>
+        </StackPanel>
 
-
-
-
-
-
-
-
-
-
+        <!-- END OF XAML-->
 
     </Grid>
-
 </Page>
