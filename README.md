@@ -1,4 +1,4 @@
-#Mobile Appications Project#
+#Mobile Applications Project#
 
 ###Jason Thorne. G00317349###
 
