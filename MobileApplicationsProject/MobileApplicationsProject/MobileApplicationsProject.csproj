@@ -18,7 +18,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>MobileApplicationsProject_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Always</AppxBundle>
+    <AppxBundle>Never</AppxBundle>
     <AppxBundlePlatforms>x64|arm</AppxBundlePlatforms>
     <PackageCertificateThumbprint>A42716E48E50F7F32BB3CB53E68A6A2C00E9E626</PackageCertificateThumbprint>
   </PropertyGroup>
@@ -125,13 +125,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\1240x600.png" />
-    <Content Include="Assets\24x24.scale-100.png" />
+    <Content Include="Assets\142x142.png" />
+    <Content Include="Assets\150x150.png" />
+    <Content Include="Assets\24x24.png" />
+    <Content Include="Assets\284x284.png" />
     <Content Include="Assets\300x300.png" />
+    <Content Include="Assets\300x300.scale-100.png" />
+    <Content Include="Assets\30x30.scale-125.png" />
+    <Content Include="Assets\310x150.png" />
     <Content Include="Assets\44x44.scale-100.png" />
     <Content Include="Assets\50x50.png" />
+    <Content Include="Assets\600x600.png" />
     <Content Include="Assets\620x300.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\71x71.scale-100.png" />
+    <Content Include="Assets\71x71.scale-200.png" />
+    <Content Include="Assets\71x71.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
