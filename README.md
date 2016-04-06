@@ -4,6 +4,8 @@
 
 This app was written in Visual Studio 2015, with the Microsoft.Net.Http client installed.  
 
+[Link to app in Windows store.] (https://www.microsoft.com/en-us/store/apps/mtg-deckbuilder/9nblggh4n9wh)
+
 This is an app designed to allow players of the card game ‘Magic: The Gathering’ to build virtual copies of their deck lists of cards.
 
 It does this by allowing the user to create and save decks to their device. These decks are displayed as list items in the initially loaded state of the app. When one of these is opened by clicking it, the app changes state to allow the user to search for cards, to enter into the decklist, or to view the cards they have already saved in the deck.
