@@ -22,6 +22,5 @@ The app has Multilanguage instructions informing the user of how to use it. In t
 Some card names to search for: 
 
 *	Goblin
-*	Lightning bolt
 *	Terror
 *	Counterspell
